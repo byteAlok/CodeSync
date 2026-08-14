@@ -282,9 +282,11 @@ The project focuses on authentication, authorization, sessions, cookies, relatio
 
 **Alok Maurya**
 
-Full Stack Developer
-C# • ASP.NET Core • React • Next.js • SQL Server
+Software Development Engineer
+
+**Core interests:**
+C# • ASP.NET Core • JavaScript • React • Next.js • SQL Server • NoSQL • Cloud & Deployment
 
 ---
 
-⭐ If you find the project interesting, consider giving it a star.
+⭐ If you like the portfolio or find the code useful, feel free to star the repository.
