@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Options;
 
 namespace Education.Models
 {
