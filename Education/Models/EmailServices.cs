@@ -16,16 +16,16 @@ namespace Education.Models
             int otp = random.Next(1000, 9999);
 
             // Send email
-            var client = new SmtpClient("smtp.gmail.com", 587)
+            var client = new SmtpClient("smtp.hostinger.com", 587)
             {
                 Credentials = new NetworkCredential(
-                    "ay5332144@gmail.com",
-                    "xkuy kedi wprp zriy"   // Gmail App Password
+                    SiteData.CompanyEmail,
+                    AppConfig.EmailAppPassword   // Gmail App Password
                 ),
                 EnableSsl = true
             };
 
-            var mail = new MailMessage("ay5332144@gmail.com", userEmail);
+            var mail = new MailMessage(SiteData.CompanyEmail, userEmail);
             mail.Subject = "Identity Verification Code";
             mail.Body = "Your OTP is: " + otp;
 
