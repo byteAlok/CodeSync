@@ -4,9 +4,10 @@ using System.ComponentModel;
 
 namespace Education.Controllers
 {
-    public class ResetPasswordController(MyConnection _db) : Controller
+    public class ResetPasswordController(MyConnection _db, EmailServices _emailServices) : Controller
     {
         private readonly MyConnection db = _db;
+        private readonly EmailServices emailServices = _emailServices;
 
         // ============================
         // 1. Forget Password
@@ -28,9 +29,8 @@ namespace Education.Controllers
 
             if (checkUser || checkAdmin)
             {
-                // Call email OTP sender
-                EmailServices serve = new EmailServices();
-                var data = await serve.Email(email);
+                // Call email OTP sender (injected)
+                var data = await emailServices.Email(email);
 
                 // Get OTP from email controller
                 int otp = data.Otp;

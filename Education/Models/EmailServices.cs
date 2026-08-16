@@ -2,12 +2,23 @@
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
+using Education.Helpers;
+using Microsoft.Identity.Client;
+using Microsoft.Extensions.Configuration;
 
 namespace Education.Models
 {
     public class EmailServices
     {
-         public string Msg { get; set; }
+        private readonly SiteSettings AppConfig;
+        private readonly ILogger<EmailServices> _logger;
+        public EmailServices(IOptions<SiteSettings> config, ILogger<EmailServices> logger)
+        {
+            AppConfig = config.Value;
+            _logger = logger;
+        }
+
+        public string Msg { get; set; }
          public int Otp { get; set; }
 
         public async Task<EmailServices> Email(string userEmail)
@@ -21,7 +32,7 @@ namespace Education.Models
             {
                 Credentials = new NetworkCredential(
                     SiteData.CompanyEmail,
-                    AppConfig.EmailAppPassword   // Gmail App Password
+                    AppConfig.EmailAppPassword
                 ),
                 EnableSsl = true
             };
@@ -34,11 +45,10 @@ namespace Education.Models
 
             string res = "OTP sent on your Email - " + userEmail;
 
-            return new EmailServices()
-            {
-                Msg = "OTP sent on your Email - " + userEmail,
-                Otp = otp
-            };
+            this.Msg = "OTP sent on your Email - " + userEmail;
+            this.Otp = otp;
+
+            return this;
         }
     }
 }
