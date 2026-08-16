@@ -1,0 +1,14 @@
+/* ==============================================================
+   🛠️ CodeSync Admin Styles
+   ============================================================== */
+
+#sidebar .nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+#sidebar .nav-link:hover {
+    background-color: rgba(124, 58, 237, 0.08);
+    color: var(--cs-purple-500);
+}

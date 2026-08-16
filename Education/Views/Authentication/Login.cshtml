@@ -1,0 +1,88 @@
+@model Education.Models.UserClass
+@{
+    ViewData["Title"] = "Sign In | CodeSync";
+}
+
+@section SEO {
+    <meta name="description" content="Sign in to your CodeSync learning account to access courses, project repositories, and mentor feedback." />
+    <meta name="robots" content="noindex, nofollow" />
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+            @if (TempData["invalid"] != null)
+            {
+                <div class="alert alert-danger d-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>@TempData["invalid"]</span>
+                </div>
+            }
+            @if (TempData["regMsg"] != null)
+            {
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>@TempData["regMsg"]</span>
+                </div>
+            }
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>@TempData["success"]</span>
+                </div>
+            }
+
+            <div class="card p-4 p-md-5 border-0 shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="brand-badge mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.4rem;">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">Welcome Back</h3>
+                    <p class="text-muted small">Sign in to continue your engineering journey</p>
+                </div>
+
+                <form asp-action="Login" asp-controller="Authentication" method="post">
+                    <!-- Username or Email -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small">Username or Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-body-tertiary border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                            <input type="text" name="NameorEmail" class="form-control border-start-0 ps-0" placeholder="Username or email" required autofocus />
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label fw-semibold small mb-0">Password</label>
+                            <a asp-action="ForgetPassword" asp-controller="ResetPassword" class="text-primary text-decoration-none small">Forgot?</a>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-body-tertiary border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                            <input type="password" name="pass" class="form-control border-start-0 ps-0" placeholder="••••••••" required />
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+                        Sign In <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </form>
+
+                <hr class="my-4 border-secondary-subtle">
+
+                <div class="text-center">
+                    <p class="small text-muted mb-0">
+                        Don't have an account yet? 
+                        <a asp-action="Register" asp-controller="Authentication" class="text-primary fw-semibold text-decoration-none ms-1">Create Account</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

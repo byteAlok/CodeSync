@@ -1,0 +1,108 @@
+@model Education.Models.CourseClass
+@{
+    Layout = "_UserSidebarlayout";
+    ViewData["Title"] = "Explore Batch";
+}
+
+<div class="container-fluid py-2">
+    <div class="mb-4">
+        <a asp-action="AvailableCourses" asp-controller="User" class="btn btn-outline-secondary btn-sm px-3 mb-2">
+            <i class="bi bi-arrow-left me-1"></i> Back to Catalog
+        </a>
+        <h2 class="fw-bold mb-1">@Model.CourseName</h2>
+        <p class="text-muted small mb-0">Detailed batch syllabus, validity timelines, and enrollment options.</p>
+    </div>
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["msg"]</span>
+        </div>
+    }
+
+    <div class="row g-4">
+        <!-- Batch Specifications & Roadmap -->
+        <div class="col-12 col-lg-7">
+            <div class="card p-4 border-0 shadow-sm mb-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2"></i>Batch Overview & Format</h5>
+
+                <div class="row g-3">
+                    <div class="col-12 col-sm-6">
+                        <div class="p-3 bg-body-tertiary rounded-3">
+                            <small class="text-muted d-block">Course Duration</small>
+                            <span class="fw-bold fs-6"><i class="bi bi-hourglass-split text-info me-1"></i>@Model.CourseDuration Months</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="p-3 bg-body-tertiary rounded-3">
+                            <small class="text-muted d-block">Lecture Delivery</small>
+                            <span class="fw-bold fs-6"><i class="bi bi-play-circle text-primary me-1"></i>On-Demand HD + Live Mentorship</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="p-3 bg-body-tertiary rounded-3">
+                            <small class="text-muted d-block">Batch Start Date</small>
+                            <span class="fw-bold fs-6"><i class="bi bi-calendar-check text-success me-1"></i>@Model.CourseStartDate</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="p-3 bg-body-tertiary rounded-3">
+                            <small class="text-muted d-block">Access Expiry</small>
+                            <span class="fw-bold fs-6"><i class="bi bi-calendar-x text-muted me-1"></i>@Model.CourseEndDate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4 border-secondary-subtle">
+
+                <h6 class="fw-bold mb-3">Included in this Course:</h6>
+                <ul class="list-unstyled d-flex flex-column gap-2 small text-muted">
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Full access to all project repos, starter kits, and architectural templates</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Automated unit and integration test suites for student assignments</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Direct code review rounds with senior software mentors</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Official CodeSync Certificate of Completion upon final project defense</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Enrollment / Pricing Card -->
+        <div class="col-12 col-lg-5">
+            <div class="card p-4 border-0 shadow-sm">
+                <div class="ratio ratio-16x9 rounded-3 overflow-hidden mb-3">
+                    <img src="~/images/course-images/@Model.CourseImage" class="object-fit-cover w-100 h-100" alt="@Model.CourseName" onerror="this.src='/images/course-images/Full_Stack_Web_Development__202512012038141148.png'" />
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="badge-new">OFFICIAL BATCH</span>
+                    <span class="badge bg-body-secondary text-body"><i class="bi bi-translate me-1"></i>@Model.CourseLanguage</span>
+                </div>
+
+                <h5 class="fw-bold mb-3">@Model.CourseName</h5>
+
+                <div class="p-3 bg-body-tertiary rounded-3 mb-3">
+                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                        <h3 class="fw-bold text-success mb-0">₹@Model.CoursePrice</h3>
+                        @if (Model.CoursePrice > 0)
+                        {
+                            <span class="text-decoration-line-through text-muted fs-6">₹@(Model.CoursePrice + 2000)</span>
+                            <span class="badge bg-success-subtle text-success small ms-auto">Discount Applied</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success text-white small ms-auto">Free Tier</span>
+                        }
+                    </div>
+                    <small class="text-muted">Includes lifetime curriculum updates and mentor channel access</small>
+                </div>
+
+                <form asp-action="@ViewBag.action" asp-controller="User" method="@(ViewBag.action == "Purchase" ? "post" : "get")">
+                    <input type="hidden" name="Cid" value="@Model.CourseId" />
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-2" id="register">
+                        <i class="bi bi-shield-check me-1"></i> @ViewBag.Btn
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

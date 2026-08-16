@@ -1,0 +1,370 @@
+@model IEnumerable<Education.Models.CourseClass>
+@{
+    Layout = "_AdminSidebar";
+    ViewData["Title"] = "Course";
+}
+
+<div class="container-fluid py-2">
+    <!-- Alerts Area -->
+    @if (TempData["CreateCourseSuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-3" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["CreateCourseSuccessMessage"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["CourseUpdateSuccesfull"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-3" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["CourseUpdateSuccesfull"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["CourseDeleteSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-3" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["CourseDeleteSuccess"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Header & Action Row -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Course Catalog Management</h2>
+            <p class="text-muted small mb-0">Create new tracks, update pricing & dates, and track batch metrics.</p>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary btn-sm px-3" data-bs-toggle="modal" data-bs-target="#AddNewCourse">
+                <i class="bi bi-plus-lg me-1"></i> Add New Course Track
+            </button>
+        </div>
+    </div>
+
+    <!-- Stat Metric Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <a asp-action="Index" asp-controller="Admin" class="text-decoration-none">
+                <div class="card p-3 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 rounded-3 bg-primary-subtle text-primary">
+                            <i class="bi bi-shield-lock-fill fs-3"></i>
+                        </div>
+                        <div>
+                            <span class="text-muted small fw-semibold d-block">System Admins</span>
+                            <h3 class="fw-bold mb-0 text-body">@ViewBag.TotalAdmin</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a asp-action="Students" asp-controller="Admin" class="text-decoration-none">
+                <div class="card p-3 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 rounded-3 bg-success-subtle text-success">
+                            <i class="bi bi-people-fill fs-3"></i>
+                        </div>
+                        <div>
+                            <span class="text-muted small fw-semibold d-block">Registered Students</span>
+                            <h3 class="fw-bold mb-0 text-body">@ViewBag.TotalStudent</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a asp-action="Course" asp-controller="Admin" class="text-decoration-none">
+                <div class="card p-3 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 rounded-3 bg-warning-subtle text-warning">
+                            <i class="bi bi-journal-code fs-3"></i>
+                        </div>
+                        <div>
+                            <span class="text-muted small fw-semibold d-block">Total Tracks</span>
+                            <h3 class="fw-bold mb-0 text-body">@(ViewBag.TotaCourse ?? ViewBag.TotalCourse)</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Analytics Charts -->
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card p-4 border-0 shadow-sm h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Batch Enrollments</h5>
+                <div style="position: relative; height: 240px;">
+                    <canvas id="enrollmentChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card p-4 border-0 shadow-sm h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-graph-up text-warning me-2"></i>Revenue Generated (₹)</h5>
+                <div style="position: relative; height: 240px;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4 border-secondary-subtle">
+
+    <!-- Course Catalog Grid -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-journal-album text-primary me-2"></i>Active Engineering Courses</h5>
+        <div class="row g-4">
+            @if (Model != null)
+            {
+                foreach (var courses in Model)
+                {
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift d-flex flex-column">
+                            <div class="ratio ratio-16x9">
+                                <img src="@Url.Action("ShowCourseImage", "Admin", new { FileName = courses.CourseImage })" class="card-img-top object-fit-cover" alt="@courses.CourseName" onerror="this.src='/images/course-images/Full_Stack_Web_Development__202512012038141148.png'" />
+                            </div>
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">ID #@courses.CourseId</span>
+                                    <span class="badge bg-body-secondary text-body"><i class="bi bi-translate me-1"></i>@courses.CourseLanguage</span>
+                                </div>
+                                <h5 class="card-title fw-bold text-gradient mb-3">@courses.CourseName</h5>
+                                
+                                <div class="d-flex flex-column gap-1 small text-muted mb-3 flex-grow-1">
+                                    <div><i class="bi bi-calendar-check text-primary me-2"></i>Starts: <strong class="text-body">@courses.CourseStartDate</strong></div>
+                                    <div><i class="bi bi-calendar-x text-muted me-2"></i>Ends: <strong class="text-body">@courses.CourseEndDate</strong></div>
+                                    <div><i class="bi bi-hourglass-split text-info me-2"></i>Duration: <strong class="text-body">@courses.CourseDuration Months</strong></div>
+                                    <div><i class="bi bi-currency-rupee text-success me-2"></i>Price: <strong class="text-success">₹@courses.CoursePrice</strong></div>
+                                </div>
+
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#courseupdateModal_@courses.CourseId">
+                                        <i class="bi bi-pencil me-1"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#coursedeleteModal_@courses.CourseId">
+                                        <i class="bi bi-trash me-1"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Course Modal -->
+                    <div class="modal fade" id="courseupdateModal_@courses.CourseId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square text-primary me-2"></i>Update Course Track</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form asp-action="UpdateCourse" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                                    <div class="modal-body p-4">
+                                        <input type="hidden" name="CourseId" value="@courses.CourseId" />
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label fw-semibold small">Course Name</label>
+                                                <input type="text" name="CourseName" class="form-control" value="@courses.CourseName" required />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label fw-semibold small">Price (₹)</label>
+                                                <input type="number" name="CoursePrice" class="form-control" value="@courses.CoursePrice" required />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label fw-semibold small">Start Date</label>
+                                                <input type="date" name="CourseStartDate" class="form-control" value="@courses.CourseStartDate" required />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label fw-semibold small">End Date</label>
+                                                <input type="date" name="CourseEndDate" class="form-control" value="@courses.CourseEndDate" required />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label fw-semibold small">Duration (Months)</label>
+                                                <input type="text" name="CourseDuration" class="form-control" value="@courses.CourseDuration" required />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label fw-semibold small">Language</label>
+                                                <select name="CourseLanguage" class="form-select" required>
+                                                    <option value="English" selected="@(courses.CourseLanguage == "English")">English</option>
+                                                    <option value="Hindi" selected="@(courses.CourseLanguage == "Hindi")">Hindi</option>
+                                                    <option value="Hinglish" selected="@(courses.CourseLanguage == "Hinglish")">Hinglish</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label fw-semibold small">New Course Thumbnail (Optional)</label>
+                                                <input type="file" name="CourseImage" class="form-control" accept="image/*" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Course Modal -->
+                    <div class="modal fade" id="coursedeleteModal_@courses.CourseId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header border-danger-subtle">
+                                    <h5 class="modal-title fw-bold text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Course Deletion</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form asp-action="DeleteCourse" asp-controller="Admin" method="post">
+                                    <div class="modal-body p-4 text-center">
+                                        <input type="hidden" name="CourseId" value="@courses.CourseId" />
+                                        <p class="mb-1">Are you sure you want to delete track <strong>@courses.CourseName</strong>?</p>
+                                        <small class="text-danger">This will remove the course curriculum and unenroll students.</small>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-danger">Delete Course</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Add Course Modal -->
+<div class="modal fade" id="AddNewCourse" tabindex="-1" aria-labelledby="AddnewCourseLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="AddnewCourseLabel"><i class="bi bi-plus-circle-fill text-primary me-2"></i>Add New Engineering Track</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form enctype="multipart/form-data" asp-action="CreateCourse" asp-controller="Admin" method="post">
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Course Name</label>
+                            <input type="text" name="CourseName" class="form-control" placeholder="e.g. Cloud Native .NET & React" required />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Price (₹)</label>
+                            <input type="number" name="CoursePrice" class="form-control" placeholder="0 for Free" required />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Start Date</label>
+                            <input type="date" name="CourseStartDate" class="form-control" required />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">End Date</label>
+                            <input type="date" name="CourseEndDate" class="form-control" required />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Duration (in months)</label>
+                            <input type="text" name="CourseDuration" class="form-control" placeholder="e.g. 6" required />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Primary Language</label>
+                            <select name="CourseLanguage" class="form-select" required>
+                                <option value="">-- Select Language --</option>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Hinglish">Hinglish</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small">Course Banner Image</label>
+                            <input type="file" name="CourseImage" class="form-control" accept="image/*" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseNamesG = @Html.Raw(Json.Serialize(ViewBag.CourseNamesG ?? new string[] { }));
+            const studentCountsG = @Html.Raw(Json.Serialize(ViewBag.StudentCountG ?? new int[] { }));
+            const revenueG = @Html.Raw(Json.Serialize(ViewBag.RevenueG ?? new decimal[] { }));
+
+            // Enrollment Bar Chart
+            const enrollmentCtx = document.getElementById('enrollmentChart');
+            if (enrollmentCtx) {
+                new Chart(enrollmentCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: courseNamesG,
+                        datasets: [{
+                            label: 'Enrollments',
+                            data: studentCountsG,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1.5,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(128, 128, 128, 0.1)' } },
+                            x: { grid: { display: false } }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // Revenue Line Chart
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                new Chart(revenueCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: courseNamesG,
+                        datasets: [{
+                            label: 'Revenue (₹)',
+                            data: revenueG,
+                            backgroundColor: 'rgba(124, 58, 237, 0.15)',
+                            borderColor: 'rgba(124, 58, 237, 1)',
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.35,
+                            pointBackgroundColor: '#FFFFFF',
+                            pointBorderColor: 'rgba(124, 58, 237, 1)',
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(128, 128, 128, 0.1)' } },
+                            x: { grid: { display: false } }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

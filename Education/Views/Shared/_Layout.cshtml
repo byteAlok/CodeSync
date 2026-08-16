@@ -1,0 +1,232 @@
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var uImage = HttpContextAccessor.HttpContext.Session.GetString("UserImage");
+    var aImage = HttpContextAccessor.HttpContext.Session.GetString("AdminImage");
+
+    var Uid = HttpContextAccessor.HttpContext.Session.GetInt32("UserId");
+    var Aid = HttpContextAccessor.HttpContext.Session.GetInt32("AdminId");
+
+    var image = string.Empty; 
+    string act = "Index"; string con = "Home";
+    string imgact = "Index"; string imgcon = "Home";
+
+    if (Uid != null) { image = uImage; act = "Dashboard"; con = "User"; imgact = "Account"; imgcon = "User"; }
+    if (Aid != null) { image = aImage; act = "Index"; con = "Admin"; imgact = "AdminSetting"; imgcon = "Admin"; }
+}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @await RenderSectionAsync("SEO", required: false)
+    <title>@ViewData["Title"] - CodeSync</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+
+    <!-- 🔹 Global CodeSync CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    
+    <!-- ===== Modern Navbar ===== -->
+    <header class="sticky-top" style="z-index: 1050;">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-xl">
+                <!-- Brand Logo -->
+                <a class="navbar-brand me-4" href="/">
+                    <span class="brand-badge"><i class="bi bi-code-slash"></i></span>
+                    <span class="text-gradient fw-bold">CodeSync</span>
+                </a>
+
+                <!-- Mobile Toggle Button -->
+                <div class="d-flex align-items-center gap-2 d-lg-none">
+                    <button id="theme-toggle-mobile" class="theme-toggle d-lg-none" aria-label="Toggle Theme">
+                        <i class="bi bi-moon-stars-fill text-secondary"></i>
+                    </button>
+                    <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/"><i class="bi bi-house-door me-1 text-primary"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Services" asp-controller="Services"><i class="bi bi-mortarboard me-1 text-primary"></i> Courses & Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="AboutUs" asp-controller="Home"><i class="bi bi-info-circle me-1 text-primary"></i> About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Contact" asp-controller="Contact"><i class="bi bi-envelope me-1 text-primary"></i> Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                More
+                            </a>
+                            <ul class="dropdown-menu shadow-sm" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/#updates"><i class="bi bi-megaphone me-2 text-primary"></i> Latest Updates</a></li>
+                                <li><a class="dropdown-item" href="/#team"><i class="bi bi-people me-2 text-primary"></i> Meet Our Team</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-action="Privacy" asp-controller="Home"><i class="bi bi-shield-check me-2 text-primary"></i> Privacy & Terms</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <!-- Right Controls (Theme Toggle & Auth) -->
+                    <div class="d-flex align-items-center gap-3 pt-2 pt-lg-0">
+                        <button id="theme-toggle" class="theme-toggle d-none d-lg-inline-flex" aria-label="Toggle Theme">
+                            <i id="theme-icon" class="bi bi-moon-stars-fill text-secondary"></i>
+                        </button>
+
+                        @if (User.Identity.IsAuthenticated && (Uid != null || Aid != null))
+                        {
+                            <div class="d-flex align-items-center gap-2">
+                                <a class="btn btn-outline-primary btn-sm px-3" asp-action="@act" asp-controller="@con">
+                                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                                </a>
+                                <a class="d-inline-block rounded-circle overflow-hidden border border-2 border-primary" asp-action="@imgact" asp-controller="@imgcon" title="Profile Settings">
+                                    <img src="/Authentication/GetImage?file=@image" alt="Profile" style="width:36px; height:36px; object-fit: cover;" onerror="this.src='/images/home-images/Alok_Maurya.jpg'" />
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center gap-2">
+                                <a class="btn btn-outline-primary btn-sm px-3" asp-action="Login" asp-controller="Authentication" id="login">
+                                    Log in
+                                </a>
+                                <a class="btn btn-primary btn-sm px-3" asp-action="Register" asp-controller="Authentication" id="register">
+                                    Get Started
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== Main Content Area ===== -->
+    <main role="main" class="flex-grow-1">
+        @RenderBody()
+    </main>
+
+    <!-- ===== Modern Footer ===== -->
+    <footer>
+        <div class="container-xl">
+            <div class="row m-0 p-0 justify-content-center">
+                <div class="col-12 col-lg-10 text-center" id="f-top">
+                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                        <div class="text-md-start">
+                            <h4 class="text-white fw-bold mb-1">Ready to upgrade your engineering skills?</h4>
+                            <p class="text-white-50 mb-0">Join thousands of developers mastering modern web & software architecture with CodeSync.</p>
+                        </div>
+                        <a asp-action="Register" asp-controller="Authentication" class="btn btn-light text-dark fw-bold px-4 py-2 text-nowrap">
+                            Join CodeSync Free
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-2">
+                <!-- Brand Info -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="brand-badge"><i class="bi bi-code-slash text-white"></i></span>
+                        <h5 class="text-gradient mb-0 fs-4 fw-bold">CodeSync</h5>
+                    </div>
+                    <p class="small text-muted mb-3">
+                        CodeSync is an advanced e-learning platform dedicated to empowering developers with hands-on, industry-ready skills in Full Stack Web Development, Cloud Architecture, Mobile Apps, and Modern Engineering.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:36px; height:36px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:36px; height:36px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-github"></i></a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:36px; height:36px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <h6 class="text-uppercase fw-bold mb-3 text-white">Explore</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a href="/">Home</a></li>
+                        <li><a asp-action="Services" asp-controller="Services">All Courses</a></li>
+                        <li><a asp-action="AboutUs" asp-controller="Home">About Platform</a></li>
+                        <li><a href="/#team">Engineering Team</a></li>
+                        <li><a href="/#updates">What's New</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <h6 class="text-uppercase fw-bold mb-3 text-white">Support & Legal</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a asp-action="Contact" asp-controller="Contact">Help & Support</a></li>
+                        <li><a asp-action="Privacy" asp-controller="Home">Privacy Policy</a></li>
+                        <li><a asp-action="Privacy" asp-controller="Home">Terms & Conditions</a></li>
+                        <li><a asp-action="Privacy" asp-controller="Home">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="col-12 col-md-12 col-lg-4">
+                    <h6 class="text-uppercase fw-bold mb-3 text-white">Contact & Headquarters</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small text-muted">
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-geo-alt-fill text-primary mt-1"></i>
+                            <span>Brahmasthan, Azamgarh (UP), India</span>
+                        </li>
+                        <li class="d-flex align-items-center gap-2">
+                            <i class="bi bi-envelope-fill text-primary"></i>
+                            <a href="mailto:info@codesync.com">info@codesync.com</a>
+                        </li>
+                        <li class="d-flex align-items-center gap-2">
+                            <i class="bi bi-telephone-fill text-primary"></i>
+                            <span>+91 97087 98088</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-25 my-4">
+
+            <!-- Bottom Row -->
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 small text-muted">
+                <div>
+                    <i class="bi bi-clock me-1 text-primary"></i>
+                    <span id="currentDateTime"></span>
+                </div>
+                <div>
+                    © <span id="currentYear"></span> <strong>CodeSync</strong>. Crafted with excellence by <a href="https://alokmaurya.netlify.app/" target="_blank" rel="noopener" class="text-primary fw-semibold">Alok Maurya</a>. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Global CodeSync JS -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,93 @@
+@model Education.Models.Admin
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    Layout = "_AdminSidebar";
+    ViewData["Title"] = "AdminSetting";
+    var Aid = HttpContextAccessor.HttpContext.Session.GetInt32("AdminId");
+}
+
+<div class="container-fluid py-2">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["SuccessMessage"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Administrator Settings</h2>
+            <p class="text-muted small mb-0">Update your administrative credentials, personal profile, and contact details.</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left Column: Profile Card -->
+        <div class="col-12 col-lg-4">
+            <div class="card p-4 border-0 shadow-sm text-center">
+                <div class="position-relative d-inline-block mx-auto mb-3">
+                    <img src="/Admin/AdminSettingImageShow?FileName=@Model.AdminImage" class="rounded-circle shadow-sm border border-3 border-primary" style="width: 120px; height: 120px; object-fit: cover;" alt="@Model.AdminName" onerror="this.src='/images/home-images/Alok_Maurya.jpg'" />
+                </div>
+                <h4 class="fw-bold mb-1">@Model.AdminName</h4>
+                <p class="text-primary small fw-semibold mb-2">Administrator #@Model.AdminId</p>
+                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill mb-3">
+                    <i class="bi bi-shield-check me-1"></i> Super Admin
+                </span>
+
+                <hr class="my-3 border-secondary-subtle">
+
+                <div class="text-start small text-muted d-flex flex-column gap-2">
+                    <div><i class="bi bi-envelope-fill me-2 text-primary"></i>@Model.AdminEmail</div>
+                    <div><i class="bi bi-telephone-fill me-2 text-success"></i>@Model.AdminPhone</div>
+                    <div><i class="bi bi-calendar-event me-2 text-info"></i>Registered: @Model.AdminRegisterDate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Settings Form -->
+        <div class="col-12 col-lg-8">
+            <div class="card p-4 p-md-5 border-0 shadow-sm">
+                <h5 class="fw-bold mb-4"><i class="bi bi-gear-fill text-primary me-2"></i>Update Account Credentials</h5>
+
+                <form asp-action="AdminAccountUpdate" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="AdminID" value="@Model.AdminId" />
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Full Name</label>
+                            <input type="text" class="form-control" name="AdminName" value="@Model.AdminName" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Date of Birth</label>
+                            <input type="date" class="form-control" name="AdminDOB" value="@Model.AdminDOB" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Email Address</label>
+                            <input type="email" class="form-control" name="AdminEmail" value="@Model.AdminEmail" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Phone Number</label>
+                            <input type="text" class="form-control" name="AdminPhone" value="@Model.AdminPhone" required />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small">Update Avatar (Optional)</label>
+                            <input type="file" class="form-control" name="AdminImage" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check2-circle me-1"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

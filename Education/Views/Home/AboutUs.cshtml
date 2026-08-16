@@ -1,0 +1,210 @@
+@{
+    ViewData["Title"] = "About Us | CodeSync Engineering & Education";
+}
+
+@section SEO {
+    <meta name="description" content="Discover the mission and story behind CodeSync. Created by Full Stack Developer Alok Maurya, CodeSync bridges the gap between academic concepts and enterprise-grade software engineering." />
+    <meta name="keywords" content="About CodeSync, Alok Maurya, Full Stack Developer, Software Development Engineer, ASP.NET Core, React, Tech Education, Programming Mentorship" />
+    <link rel="canonical" href="@SiteData.SiteUrl/Home/AboutUs" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@SiteData.SiteUrl/Home/AboutUs" />
+    <meta property="og:title" content="About Us | CodeSync Platform" />
+    <meta property="og:description" content="CodeSync empowers engineers to build real-world software careers. Founded with passion by Alok Maurya." />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:url" content="@SiteData.SiteUrl/Home/AboutUs" />
+    <meta property="twitter:title" content="About Us | CodeSync Platform" />
+    <meta property="twitter:description" content="CodeSync empowers engineers to build real-world software careers." />
+}
+
+@section Styles {
+    <link href="~/css/About.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div class="bodyAbout">
+    <!-- Hero Banner -->
+    <section class="about-hero py-5 text-center position-relative">
+        <div class="container-xl py-4">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-3 fw-semibold">
+                OUR STORY & MISSION
+            </div>
+            <h1 class="display-4 fw-black mb-3">About <span class="text-gradient">CodeSync</span></h1>
+            <p class="lead text-muted max-w-700 mx-auto fs-5">
+                Empowering aspiring developers with hands-on coding, robust system architecture, and modern full-stack development skills.
+            </p>
+        </div>
+    </section>
+
+    <!-- Who We Are -->
+    <section class="py-5">
+        <div class="container-xl">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 text-center">
+                    <div class="card border-0 shadow-lg overflow-hidden rounded-4">
+                        <img src="~/images/home-images/Team photo2.png" alt="CodeSync Team Photo" class="img-fluid object-fit-cover" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                        WHO WE ARE
+                    </div>
+                    <h2 class="display-6 fw-bold mb-3">Architecting The Next Generation of Developers</h2>
+                    <p class="text-muted mb-3">
+                        Welcome to <strong>CodeSync</strong> — an engineering education ecosystem created to simplify modern software technologies. We provide immersive, practical curriculums across <strong>Full Stack Web Development, C#, ASP.NET Core, React, Mobile Apps,</strong> and <strong>Data Engineering</strong>.
+                    </p>
+                    <p class="text-muted mb-4">
+                        Our primary goal is to ensure students don't just learn syntax in isolation, but understand how production code is structured, tested, deployed, and scaled in modern tech organizations.
+                    </p>
+                    <a asp-action="Contact" asp-controller="Contact" class="btn btn-primary px-4">
+                        <i class="bi bi-envelope me-2"></i> Get in Touch With Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Established Section -->
+    <section class="py-5 bg-body-tertiary">
+        <div class="container-xl">
+            <div class="card p-4 p-md-5 border-0 shadow-sm text-center">
+                <div class="max-w-700 mx-auto">
+                    <div class="p-3 rounded-circle bg-primary-subtle text-primary d-inline-flex mb-3">
+                        <i class="bi bi-calendar3 fs-3"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Established in 2023</h3>
+                    <p class="text-muted lead fs-6 mb-0">
+                        CodeSync was founded in 2023 with a singular objective: to eliminate the gap between traditional coursework and industry requirements. Since inception, we have guided hundreds of students in mastering modern engineering stacks and launching rewarding careers in technology.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Offer -->
+    <section class="py-5">
+        <div class="container-xl">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                    PROGRAM HIGHLIGHTS
+                </div>
+                <h2 class="display-6 fw-bold">What We Offer</h2>
+                <p class="text-muted">Comprehensive tracks designed to build end-to-end technical competency.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 p-4 border-0 shadow-sm text-center hover-lift">
+                        <div class="p-3 rounded-circle bg-primary-subtle text-primary mx-auto mb-3" style="width: 60px; height: 60px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-laptop fs-4"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Coding Tracks</h5>
+                        <p class="text-muted small mb-0">Step-by-step programming modules in C#, JavaScript, Python, and modern web frameworks.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 p-4 border-0 shadow-sm text-center hover-lift">
+                        <div class="p-3 rounded-circle bg-success-subtle text-success mx-auto mb-3" style="width: 60px; height: 60px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-bar-chart-line fs-4"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Data Science & SQL</h5>
+                        <p class="text-muted small mb-0">Hands-on analytics projects, relational database querying, and business intelligence techniques.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 p-4 border-0 shadow-sm text-center hover-lift">
+                        <div class="p-3 rounded-circle bg-warning-subtle text-warning mx-auto mb-3" style="width: 60px; height: 60px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-cpu fs-4"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">AI & Machine Learning</h5>
+                        <p class="text-muted small mb-0">Understand core ML workflows, model training paradigms, and AI service integrations.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 p-4 border-0 shadow-sm text-center hover-lift">
+                        <div class="p-3 rounded-circle bg-info-subtle text-info mx-auto mb-3" style="width: 60px; height: 60px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-compass fs-4"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Career Mentorship</h5>
+                        <p class="text-muted small mb-0">Mock technical interviews, code reviews, resume polishing, and portfolio coaching.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Carousel -->
+    <section class="py-5 bg-body-tertiary">
+        <div class="container-xl">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                    EXPERIENCES
+                </div>
+                <h2 class="display-6 fw-bold">What Our Students Say</h2>
+                <p class="text-muted">Feedback from engineers who grew their skills through CodeSync.</p>
+            </div>
+
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="card border-0 shadow-sm p-4 p-md-5 mx-auto max-w-700 text-center">
+                            <i class="bi bi-quote fs-1 text-primary mb-2"></i>
+                            <p class="lead fs-6 text-muted mb-3">
+                                "CodeSync fundamentally transformed how I write software. The ASP.NET Core and React tutorials are highly structured, clear, and practical."
+                            </p>
+                            <h6 class="fw-bold mb-0">Rahul Sharma</h6>
+                            <small class="text-muted">Software Developer</small>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="card border-0 shadow-sm p-4 p-md-5 mx-auto max-w-700 text-center">
+                            <i class="bi bi-quote fs-1 text-primary mb-2"></i>
+                            <p class="lead fs-6 text-muted mb-3">
+                                "I started as a beginner and within months built full stack applications with real database integrations. The mentorship and structure are exceptional."
+                            </p>
+                            <h6 class="fw-bold mb-0">Priya Singh</h6>
+                            <small class="text-muted">Frontend Engineer</small>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="card border-0 shadow-sm p-4 p-md-5 mx-auto max-w-700 text-center">
+                            <i class="bi bi-quote fs-1 text-primary mb-2"></i>
+                            <p class="lead fs-6 text-muted mb-3">
+                                "The project-based approach gave me the confidence to ace technical interviews. Mentors genuinely care about code quality and understanding."
+                            </p>
+                            <h6 class="fw-bold mb-0">Aman Verma</h6>
+                            <small class="text-muted">Backend Developer</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev" style="width: 36px; height: 36px; padding: 0;">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next" style="width: 36px; height: 36px; padding: 0;">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 text-center">
+        <div class="container-xl">
+            <h3 class="fw-bold mb-2">Have Questions or Want to Collaborate?</h3>
+            <p class="text-muted mb-4">We are always excited to connect with learners, mentors, and technology partners.</p>
+            <a asp-action="Contact" asp-controller="Contact" class="btn btn-primary btn-lg px-5">
+                Contact Our Team
+            </a>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,63 @@
+@model List<Education.Models.ContactClass>
+@{
+    Layout = "_UserSidebarLayout";
+    ViewData["Title"] = "Contacts";
+    int count = 1;
+}
+
+<div class="container-fluid py-2">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">My Contact Messages</h2>
+            <p class="text-muted small mb-0">History of inquiries and support messages submitted to CodeSync desks.</p>
+        </div>
+        <div>
+            <a asp-action="Contact" asp-controller="Contact" class="btn btn-primary btn-sm px-3">
+                <i class="bi bi-plus-lg me-1"></i> Send New Message
+            </a>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 80px;">#</th>
+                        <th scope="col" style="width: 250px;">Email</th>
+                        <th scope="col">Message Inquiry</th>
+                        <th scope="col" style="width: 180px;">Submitted On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row" class="text-muted small">@count</th>
+                                <td class="fw-semibold">
+                                    <i class="bi bi-envelope me-1 text-primary"></i> @item.ContactEmail
+                                </td>
+                                <td>@item.ContactMessage</td>
+                                <td class="text-muted small">
+                                    <i class="bi bi-calendar3 me-1"></i> @item.ContactDate
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-2 d-block mb-2 text-muted"></i>
+                                No message inquiries found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

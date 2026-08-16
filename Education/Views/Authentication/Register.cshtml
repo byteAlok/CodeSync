@@ -1,0 +1,120 @@
+@model Education.Models.UserClass
+@{
+    ViewData["Title"] = "Register | CodeSync Developer Account";
+}
+
+@section SEO {
+    <meta name="description" content="Create your CodeSync student account to enroll in developer courses, submit projects, and track technical certifications." />
+    <meta name="robots" content="noindex, nofollow" />
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger d-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>@TempData["Error"]</span>
+                </div>
+            }
+
+            <div class="card p-4 p-md-5 border-0 shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="brand-badge mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.4rem;">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">Create Your Account</h3>
+                    <p class="text-muted small">Join CodeSync to start building enterprise-ready software skills</p>
+                </div>
+
+                <form method="post" asp-action="Register" asp-controller="Authentication" enctype="multipart/form-data">
+                    <div class="row g-3">
+                        <!-- Full Name -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UserFullName" class="form-label fw-semibold small">Full Name</label>
+                            <input asp-for="UserFullName" class="form-control" placeholder="e.g. Alex Johnson" required />
+                            <span asp-validation-for="UserFullName" class="text-danger small"></span>
+                        </div>
+
+                        <!-- DOB -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UserDOB" class="form-label fw-semibold small">Date of Birth</label>
+                            <input asp-for="UserDOB" type="date" class="form-control" required />
+                            <span asp-validation-for="UserDOB" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UserEmail" class="form-label fw-semibold small">Email Address</label>
+                            <input asp-for="UserEmail" type="email" class="form-control" placeholder="alex@example.com" required />
+                            <span asp-validation-for="UserEmail" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UserName" class="form-label fw-semibold small">Username</label>
+                            <input asp-for="UserName" class="form-control" placeholder="alex_dev" required />
+                            <span asp-validation-for="UserName" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UserPassword" class="form-label fw-semibold small">Password</label>
+                            <input asp-for="UserPassword" type="password" class="form-control" placeholder="••••••••" required />
+                            <span asp-validation-for="UserPassword" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UserConfirmPassword" class="form-label fw-semibold small">Confirm Password</label>
+                            <input asp-for="UserConfirmPassword" type="password" class="form-control" placeholder="••••••••" required />
+                            <span asp-validation-for="UserConfirmPassword" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAPTCHA Verification -->
+                    <div class="mt-4 p-3 bg-body-tertiary rounded-3 border">
+                        <label class="form-label fw-semibold small d-block mb-2">Security Verification</label>
+                        <div class="d-flex flex-wrap align-items-center gap-3">
+                            <input type="text" name="CaptchaInput" class="form-control" style="max-width: 180px;" placeholder="Enter code" required />
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="/Captcha/Generate" id="captchaImg" alt="CAPTCHA" class="rounded border" style="height: 38px;" />
+                                <button type="button" class="btn btn-sm btn-outline-secondary p-2" onclick="reloadCaptcha()" title="Reload CAPTCHA">
+                                    <i class="bi bi-arrow-clockwise fs-6"></i>
+                                </button>
+                            </div>
+                            @if (TempData["capMsg"] != null)
+                            {
+                                <span class="small fw-semibold @(TempData["capMsg"]?.ToString() == "Captcha Verified!" ? "text-success" : "text-danger")">
+                                    @TempData["capMsg"]
+                                </span>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary w-100 py-2 mt-4">
+                        <i class="bi bi-check-circle me-1"></i> Complete Registration
+                    </button>
+
+                    <div class="text-center mt-4">
+                        <p class="small text-muted mb-0">
+                            Already have an account? 
+                            <a asp-action="Login" asp-controller="Authentication" class="text-primary fw-semibold text-decoration-none ms-1">Sign In</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function reloadCaptcha() {
+            document.getElementById("captchaImg").src = "/Captcha/Generate?rand=" + Math.random();
+        }
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

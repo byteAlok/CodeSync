@@ -1,0 +1,10 @@
+/* ==============================================================
+   👤 CodeSync User Profile Styles
+   ============================================================== */
+
+.profile-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+}

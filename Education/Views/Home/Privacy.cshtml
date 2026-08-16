@@ -1,0 +1,110 @@
+@{
+    ViewData["Title"] = "Privacy Policy & Terms | CodeSync";
+}
+
+@section SEO {
+    <meta name="description" content="Review the Privacy Policy, Terms of Service, and Refund Guidelines for CodeSync. We take security, transparency, and data integrity seriously." />
+    <meta name="keywords" content="CodeSync Privacy Policy, Terms and Conditions, Refund Policy, Data Protection" />
+    <link rel="canonical" href="@SiteData.SiteUrl/Home/Privacy" />
+}
+
+@section Styles {
+    <link href="~/css/home/privacy.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div class="container-xl py-5">
+    <div class="text-center max-w-700 mx-auto mb-5">
+        <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+            LEGAL & COMPLIANCE
+        </div>
+        <h1 class="display-5 fw-bold">Privacy Policy & Terms</h1>
+        <p class="text-muted">Transparent terms and privacy practices governing your use of the CodeSync learning platform.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-12 col-lg-10">
+            <!-- Privacy Policy Card -->
+            <div class="card p-4 p-md-5 border-0 shadow-sm mb-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="p-2 rounded-3 bg-primary text-white">
+                        <i class="bi bi-shield-lock-fill fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold mb-0">Privacy Policy</h3>
+                </div>
+                <p class="text-muted">
+                    At CodeSync, we prioritize user data privacy. This policy outlines how your personal details, learning progress, and account credentials are treated with highest standards of confidentiality and security.
+                </p>
+
+                <h5 class="fw-bold mt-4 mb-2">1. Information We Collect</h5>
+                <p class="text-muted small">
+                    When you register for an account or reach out via contact forms, we may collect your name, email address, date of birth, username, and encrypted password hash. We do not store raw passwords.
+                </p>
+
+                <h5 class="fw-bold mt-3 mb-2">2. How Information is Utilized</h5>
+                <ul class="text-muted small ps-3 mb-3">
+                    <li>To authenticate your student or administrator session securely</li>
+                    <li>To track enrolled course access and deliver curriculum updates</li>
+                    <li>To communicate essential maintenance schedules and platform announcements</li>
+                    <li>To protect the platform against malicious behavior and unauthorized access</li>
+                </ul>
+
+                <h5 class="fw-bold mt-3 mb-2">3. Data Security & Storage</h5>
+                <p class="text-muted small mb-0">
+                    We employ industry-standard encryption protocols, session tokens, and secure SQL parameterization to safeguard all stored records against unauthorized tampering.
+                </p>
+            </div>
+
+            <!-- Terms & Conditions Card -->
+            <div class="card p-4 p-md-5 border-0 shadow-sm mb-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="p-2 rounded-3 bg-purple text-white" style="background-color: var(--cs-purple-600) !important;">
+                        <i class="bi bi-file-earmark-text-fill fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold mb-0">Terms & Conditions</h3>
+                </div>
+                <p class="text-muted">
+                    By accessing or creating an account on CodeSync, you agree to comply with and be bound by the following platform usage terms.
+                </p>
+
+                <h5 class="fw-bold mt-4 mb-2">1. Account Responsibility</h5>
+                <p class="text-muted small">
+                    You are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account.
+                </p>
+
+                <h5 class="fw-bold mt-3 mb-2">2. Acceptable Platform Use</h5>
+                <ul class="text-muted small ps-3 mb-3">
+                    <li>You agree not to reverse-engineer, decompile, or exploit platform endpoints</li>
+                    <li>You agree not to distribute course resources, videos, or assessment materials without written consent</li>
+                    <li>You agree to provide accurate and truthful profile information</li>
+                </ul>
+
+                <h5 class="fw-bold mt-3 mb-2">3. Intellectual Property</h5>
+                <p class="text-muted small mb-0">
+                    All curriculums, tutorials, branding, and assets on CodeSync are the proprietary intellectual property of CodeSync and its creators.
+                </p>
+            </div>
+
+            <!-- Refund Policy & Disclaimer Card -->
+            <div class="card p-4 p-md-5 border-0 shadow-sm">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="p-2 rounded-3 bg-info text-white">
+                        <i class="bi bi-arrow-counterclockwise fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold mb-0">Refund Policy & Inquiries</h3>
+                </div>
+                <p class="text-muted small mb-3">
+                    Refund requests for eligible paid courses can be submitted within 7 business days of enrollment if fewer than 20% of batch modules have been accessed. Digital completion certificates and downloadable project bundles are non-refundable once unlocked.
+                </p>
+                <div class="p-3 bg-body-tertiary rounded-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                    <div>
+                        <span class="fw-bold d-block">Have legal or policy questions?</span>
+                        <small class="text-muted">Contact our compliance desk at <strong>support@codesync.com</strong></small>
+                    </div>
+                    <a asp-action="Contact" asp-controller="Contact" class="btn btn-outline-primary btn-sm px-3">
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+@{
+    Layout = "_Layout";
+}
+@{
+    var pageTitle = ViewData["Title"] as string;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/UserSidebarLayout/UserSidebar.css" asp-append-version="true" />
+
+    @if (pageTitle == "Courses" || pageTitle == "AvailableCourses" || pageTitle == "Explore" || pageTitle == "Study")
+    {
+        <link rel="stylesheet" href="~/css/UserSidebarLayout/Courses.css" asp-append-version="true" />
+    }
+    else if (pageTitle == "Account")
+    {
+        <link rel="stylesheet" href="~/css/UserSidebarLayout/Profile.css" asp-append-version="true" />
+    }
+    @await RenderSectionAsync("Styles", required: false)
+}
+
+<!-- USER SUB-HEADER -->
+<div class="border-bottom py-2" style="background-color: var(--card-bg);">
+    <div class="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            <button id="toggleUserBtn" class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center p-2 rounded-3" aria-label="Toggle Sidebar">
+                <i class="bi bi-layout-sidebar-inset fs-5"></i>
+            </button>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-semibold px-2 py-1">STUDENT</span>
+                <h5 class="mb-0 fw-bold">
+                    <a asp-action="Dashboard" asp-controller="User" class="text-decoration-none text-body">
+                        CodeSync Learning Hub / <span class="text-gradient">@pageTitle</span>
+                    </a>
+                </h5>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a asp-action="AvailableCourses" asp-controller="User" class="btn btn-sm btn-outline-primary d-none d-sm-inline-flex align-items-center gap-1">
+                <i class="bi bi-compass"></i> Explore Courses
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN LAYOUT (SIDEBAR + CONTENT) -->
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="col-auto col-md-3 col-xl-2 border-end" style="background-color: var(--card-bg); min-height: calc(100vh - 120px);">
+            <div class="p-3">
+                <p class="text-uppercase text-muted fw-bold small mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Student Space</p>
+                <nav class="nav flex-column gap-1">
+                    <a class="nav-link @(pageTitle == "Dashboard" ? "active fw-bold text-primary bg-primary-subtle" : "text-body") rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="Dashboard" asp-controller="User">
+                        <i class="bi bi-speedometer2 text-primary"></i> <span>Dashboard</span>
+                    </a>
+                    <a class="nav-link @(pageTitle == "Courses" ? "active fw-bold text-primary bg-primary-subtle" : "text-body") rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="Courses" asp-controller="User">
+                        <i class="bi bi-mortarboard-fill text-success"></i> <span>My Courses</span>
+                    </a>
+                    <a class="nav-link @(pageTitle == "AvailableCourses" ? "active fw-bold text-primary bg-primary-subtle" : "text-body") rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="AvailableCourses" asp-controller="User">
+                        <i class="bi bi-bag-check-fill text-warning"></i> <span>Course Catalog</span>
+                    </a>
+                </nav>
+
+                <hr class="my-3 border-secondary opacity-25">
+
+                <p class="text-uppercase text-muted fw-bold small mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Communications</p>
+                <nav class="nav flex-column gap-1">
+                    <a class="nav-link @(pageTitle == "Contacts" ? "active fw-bold text-primary bg-primary-subtle" : "text-body") rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="Contacts" asp-controller="User">
+                        <i class="bi bi-envelope-fill text-info"></i> <span>My Messages</span>
+                    </a>
+                    <a class="nav-link @(pageTitle == "Feedback" ? "active fw-bold text-primary bg-primary-subtle" : "text-body") rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="Feedback" asp-controller="User">
+                        <i class="bi bi-chat-dots-fill text-primary"></i> <span>My Feedback</span>
+                    </a>
+                </nav>
+
+                <hr class="my-3 border-secondary opacity-25">
+
+                <p class="text-uppercase text-muted fw-bold small mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Account</p>
+                <nav class="nav flex-column gap-1">
+                    <a class="nav-link @(pageTitle == "Account" ? "active fw-bold text-primary bg-primary-subtle" : "text-body") rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="Account" asp-controller="User">
+                        <i class="bi bi-person-circle text-secondary"></i> <span>Profile & Settings</span>
+                    </a>
+                    <a class="nav-link text-danger rounded-3 px-3 py-2 d-flex align-items-center gap-2" asp-action="Logout" asp-controller="Authentication">
+                        <i class="bi bi-box-arrow-right text-danger"></i> <span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <main id="content" class="col p-3 p-lg-4" style="background-color: var(--bg-color);">
+            @RenderBody()
+        </main>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById("sidebar");
+            const toggleUserBtn = document.getElementById("toggleUserBtn");
+
+            if (toggleUserBtn && sidebar) {
+                toggleUserBtn.addEventListener("click", () => {
+                    sidebar.classList.toggle("d-none");
+                });
+            }
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+}

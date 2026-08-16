@@ -1,0 +1,245 @@
+@model IEnumerable<Education.Models.CourseClass>
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var Uid = HttpContextAccessor.HttpContext.Session.GetInt32("UserId");
+    ViewData["Title"] = "Courses & Services | CodeSync Engineering Academy";
+}
+
+@section SEO {
+    <meta name="description" content="Explore CodeSync's comprehensive engineering courses: Full Stack Web Development, C#, ASP.NET Core, React, Mobile Apps, Backend Architecture, and Career Mentorship by Alok Maurya." />
+    <meta name="keywords" content="CodeSync Courses, Full Stack Development, ASP.NET Core Courses, C# Tutorial, React Course, Backend Training, Mock Interviews, Alok Maurya" />
+    <link rel="canonical" href="@SiteData.SiteUrl/Services/Services" />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@SiteData.SiteUrl/Services/Services" />
+    <meta property="og:title" content="Courses & Services | CodeSync Engineering Academy" />
+    <meta property="og:description" content="Advance your programming career with professional, job-ready engineering roadmaps." />
+
+    <!-- Schema.org Course -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Course",
+      "name": "Full Stack Web Development with ASP.NET Core & React",
+      "description": "Master enterprise software development from relational database modeling to modern reactive user interfaces.",
+      "provider": {
+        "@@type": "Organization",
+        "name": "CodeSync",
+        "sameAs": "@SiteData.SiteUrl"
+      }
+    }
+    </script>
+}
+
+@section Styles { 
+    <link href="~/css/Services.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<!-- ===== HERO BANNER ===== -->
+<section class="services-hero py-5 text-center position-relative">
+    <div class="container-xl py-4">
+        <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-3 fw-semibold">
+            ENGINEERING ROADMAPS
+        </div>
+        <h1 class="display-4 fw-black mb-3">Empowering Growth Through <span class="text-gradient">Knowledge & Code</span></h1>
+        <p class="lead text-muted max-w-700 mx-auto fs-5 mb-4">
+            Master modern technologies with hands-on labs, guided architecture exercises, and interview-ready portfolio projects.
+        </p>
+        <a class="btn btn-primary px-4" href="#courses-catalog">
+            <i class="bi bi-arrow-down-circle me-1"></i> Explore All Batches
+        </a>
+    </div>
+</section>
+
+<!-- ===== AVAILABLE COURSES CATALOG ===== -->
+<section class="py-5" id="courses-catalog">
+    <div class="container-xl">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                PROFESSIONAL TRACKS
+            </div>
+            <h2 class="display-6 fw-bold">Available Certification Batches</h2>
+            <p class="text-muted">Structured developer tracks with live mentor Q&A and comprehensive project assignments.</p>
+        </div>
+
+        <div class="row g-4">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    if (item.CoursePrice != 0)
+                    {
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 border-0 shadow-sm hover-lift d-flex flex-column">
+                                <div class="ratio ratio-16x9">
+                                    <img src="~/images/course-images/@item.CourseImage" class="card-img-top object-fit-cover" alt="@item.CourseName" onerror="this.src='/images/course-images/Full_Stack_Web_Development__202512012038141148.png'" />
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span class="badge-new">FEATURED</span>
+                                        <span class="badge bg-body-secondary text-body"><i class="bi bi-translate me-1"></i>@item.CourseLanguage</span>
+                                    </div>
+
+                                    <h5 class="card-title fw-bold text-gradient mb-3">@item.CourseName</h5>
+
+                                    <div class="d-flex flex-column gap-1 small text-muted mb-3 flex-grow-1">
+                                        <div><i class="bi bi-calendar-check text-primary me-2"></i>Starts: <strong class="text-body">@item.CourseStartDate</strong></div>
+                                        <div><i class="bi bi-calendar-x text-muted me-2"></i>Access Until: <strong class="text-body">@item.CourseEndDate</strong></div>
+                                        <div><i class="bi bi-hourglass-split text-info me-2"></i>Duration: <strong class="text-body">@item.CourseDuration Months</strong></div>
+                                    </div>
+
+                                    <div class="d-flex align-items-baseline gap-2 mb-3">
+                                        <h4 class="fw-bold text-success mb-0">₹@item.CoursePrice</h4>
+                                        <span class="text-decoration-line-through text-muted small">₹@(item.CoursePrice + 2000)</span>
+                                        <span class="badge bg-success-subtle text-success small ms-auto">Discount Applied</span>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        @if (User.Identity.IsAuthenticated && Uid != null)
+                                        {
+                                            if (ViewBag.check != null && ((int[])ViewBag.check).Contains(item.CourseId))
+                                            {
+                                                @Html.ActionLink("Explore Batch", "Explore", "User", new { Cid = item.CourseId }, new { @class = "btn btn-outline-primary w-100", id = "login" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Details", "Explore", "User", new { Cid = item.CourseId }, new { @class = "btn btn-outline-primary flex-fill", id = "login" })
+                                                @Html.ActionLink("Enroll Now", "Explore", "User", new { Cid = item.CourseId }, new { @class = "btn btn-primary flex-fill", id = "register" })
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink("Details", "Login", "Authentication", new { }, new { @class = "btn btn-outline-primary flex-fill", id = "login" })
+                                            @Html.ActionLink("Enroll Now", "Login", "Authentication", new { }, new { @class = "btn btn-primary flex-fill", id = "register" })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+
+        <!-- FREE COURSES SECTION -->
+        <div class="mt-5 pt-5 border-top border-secondary-subtle">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <div class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                    100% FREE COMMUNITY TRACKS
+                </div>
+                <h2 class="display-6 fw-bold">Free Foundations & Workshops</h2>
+                <p class="text-muted">Start learning programming basics without financial barriers.</p>
+            </div>
+
+            <div class="row g-4">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        if (item.CoursePrice == 0)
+                        {
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm hover-lift d-flex flex-column">
+                                    <div class="ratio ratio-16x9">
+                                        <img src="~/images/course-images/@item.CourseImage" class="card-img-top object-fit-cover" alt="@item.CourseName" onerror="this.src='/images/course-images/Basics-of-Web-Design.png'" />
+                                    </div>
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <span class="badge bg-success text-white fw-bold">FREE</span>
+                                            <span class="badge bg-body-secondary text-body"><i class="bi bi-translate me-1"></i>@item.CourseLanguage</span>
+                                        </div>
+
+                                        <h5 class="card-title fw-bold text-gradient mb-3">@item.CourseName</h5>
+
+                                        <div class="d-flex flex-column gap-1 small text-muted mb-3 flex-grow-1">
+                                            <div><i class="bi bi-calendar-check text-primary me-2"></i>Starts: <strong class="text-body">@item.CourseStartDate</strong></div>
+                                            <div><i class="bi bi-calendar-x text-muted me-2"></i>Access: <strong class="text-body">@item.CourseEndDate</strong></div>
+                                            <div><i class="bi bi-hourglass-split text-info me-2"></i>Duration: <strong class="text-body">@item.CourseDuration Months</strong></div>
+                                        </div>
+
+                                        <div class="d-flex align-items-baseline gap-2 mb-3">
+                                            <h4 class="fw-bold text-success mb-0">Free Access</h4>
+                                            <span class="badge bg-success-subtle text-success small ms-auto">Community Edition</span>
+                                        </div>
+
+                                        <div class="d-flex gap-2">
+                                            @if (User.Identity.IsAuthenticated && Uid != null)
+                                            {
+                                                @Html.ActionLink("Start Learning", "Explore", "User", new { Cid = item.CourseId }, new { @class = "btn btn-primary w-100", id = "register" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Start Learning", "Login", "Authentication", new { }, new { @class = "btn btn-primary w-100", id = "login" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TRAINING & CAREER SUPPORT HIGHLIGHTS ===== -->
+<section class="py-5 bg-body-tertiary">
+    <div class="container-xl">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                    CAREER ACCELERATOR
+                </div>
+                <h2 class="display-6 fw-bold mb-3">Interview Preparation & Placement Coaching</h2>
+                <p class="text-muted mb-4">
+                    Writing code is half the battle; communicating design tradeoffs and navigating technical interview loops is what gets offers. CodeSync embeds continuous interview readiness into all programs.
+                </p>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="card p-3 border-0 shadow-sm d-flex flex-row align-items-center gap-3">
+                        <div class="p-3 rounded-circle bg-primary-subtle text-primary">
+                            <i class="bi bi-person-video3 fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Mock Technical Interviews</h6>
+                            <p class="text-muted small mb-0">Simulated live coding, data structures, and system design rounds with personalized feedback.</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-3 border-0 shadow-sm d-flex flex-row align-items-center gap-3">
+                        <div class="p-3 rounded-circle bg-success-subtle text-success">
+                            <i class="bi bi-file-earmark-person-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Resume & LinkedIn Architecture</h6>
+                            <p class="text-muted small mb-0">Transform project descriptions into compelling impact statements that highlight engineering achievements.</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-3 border-0 shadow-sm d-flex flex-row align-items-center gap-3">
+                        <div class="p-3 rounded-circle bg-info-subtle text-info">
+                            <i class="bi bi-chat-dots-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Behavioral & Soft Skills Coaching</h6>
+                            <p class="text-muted small mb-0">Articulate project decisions, cross-functional collaboration stories, and technical leadership.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 text-center">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden p-4 p-md-5 bg-gradient-brand text-white text-start">
+                    <span class="badge bg-white text-dark fw-bold px-3 py-1 rounded-pill mb-3 d-inline-block">INDUSTRY READINESS</span>
+                    <h3 class="fw-bold mb-3">From Fundamentals to Production</h3>
+                    <p class="text-white-50 mb-4">Every project on CodeSync mirrors actual software development cycles: git branch management, pull request reviews, automated tests, and deployment verification.</p>
+                    <a asp-action="Contact" asp-controller="Contact" class="btn btn-light text-dark fw-bold px-4">
+                        Speak With a Mentor
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

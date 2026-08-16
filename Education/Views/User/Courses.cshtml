@@ -1,0 +1,111 @@
+@model IEnumerable<Education.Models.CourseClass>
+@{
+    Layout = "_UserSidebarlayout";
+    ViewData["Title"] = "Courses";
+}
+
+<div class="container-fluid py-2">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">My Enrolled Courses</h2>
+            <p class="text-muted small mb-0">Access your active learning modules, recorded lectures, and assignment tracks.</p>
+        </div>
+        <div>
+            <a asp-action="AvailableCourses" asp-controller="User" class="btn btn-primary btn-sm px-3">
+                <i class="bi bi-plus-lg me-1"></i> Browse More Courses
+            </a>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <!-- Paid Enrolled Courses -->
+        @if (Model.Any(x => x.CoursePrice != 0))
+        {
+            <div class="mb-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-award-fill text-primary me-2"></i>Active Premium Batches</h5>
+                <div class="row g-4">
+                    @foreach (var item in Model.Where(x => x.CoursePrice != 0))
+                    {
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="card h-100 border-0 shadow-sm hover-lift d-flex flex-column">
+                                <div class="ratio ratio-16x9">
+                                    <img src="~/images/course-images/@item.CourseImage" class="card-img-top object-fit-cover" alt="@item.CourseName" onerror="this.src='/images/course-images/Full_Stack_Web_Development__202512012038141148.png'" />
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">ENROLLED</span>
+                                        <span class="badge bg-body-secondary text-body"><i class="bi bi-translate me-1"></i>@item.CourseLanguage</span>
+                                    </div>
+                                    <h5 class="card-title fw-bold text-gradient mb-3">@item.CourseName</h5>
+                                    
+                                    <div class="d-flex flex-column gap-1 small text-muted mb-3 flex-grow-1">
+                                        <div><i class="bi bi-calendar-check text-primary me-2"></i>Started: <strong class="text-body">@item.CourseStartDate</strong></div>
+                                        <div><i class="bi bi-calendar-x text-muted me-2"></i>Valid Until: <strong class="text-body">@item.CourseEndDate</strong></div>
+                                        <div><i class="bi bi-hourglass-split text-info me-2"></i>Duration: <strong class="text-body">@item.CourseDuration Months</strong></div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 mt-2">
+                                        @Html.ActionLink("Open Course Space", "Explore", "User", new { Cid = item.CourseId }, new { @class = "btn btn-primary w-100", id = "login" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <!-- Free Enrolled Courses -->
+        @if (Model.Any(x => x.CoursePrice == 0))
+        {
+            <div class="mt-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-patch-check-fill text-success me-2"></i>Community & Free Batches</h5>
+                <div class="row g-4">
+                    @foreach (var item in Model.Where(x => x.CoursePrice == 0))
+                    {
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="card h-100 border-0 shadow-sm hover-lift d-flex flex-column">
+                                <div class="ratio ratio-16x9">
+                                    <img src="~/images/course-images/@item.CourseImage" class="card-img-top object-fit-cover" alt="@item.CourseName" onerror="this.src='/images/course-images/Basics-of-Web-Design.png'" />
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span class="badge bg-success text-white">FREE ACCESS</span>
+                                        <span class="badge bg-body-secondary text-body"><i class="bi bi-translate me-1"></i>@item.CourseLanguage</span>
+                                    </div>
+                                    <h5 class="card-title fw-bold text-gradient mb-3">@item.CourseName</h5>
+                                    
+                                    <div class="d-flex flex-column gap-1 small text-muted mb-3 flex-grow-1">
+                                        <div><i class="bi bi-calendar-check text-primary me-2"></i>Started: <strong class="text-body">@item.CourseStartDate</strong></div>
+                                        <div><i class="bi bi-calendar-x text-muted me-2"></i>Access: <strong class="text-body">@item.CourseEndDate</strong></div>
+                                        <div><i class="bi bi-hourglass-split text-info me-2"></i>Duration: <strong class="text-body">@item.CourseDuration Months</strong></div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 mt-2">
+                                        @Html.ActionLink("Open Course Space", "Explore", "User", new { Cid = item.CourseId }, new { @class = "btn btn-primary w-100", id = "login" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card p-5 border-0 shadow-sm text-center">
+            <div class="p-3 rounded-circle bg-primary-subtle text-primary d-inline-flex mx-auto mb-3" style="width: 64px; height: 64px; align-items: center; justify-content: center;">
+                <i class="bi bi-journal-x fs-3"></i>
+            </div>
+            <h4 class="fw-bold mb-2">No Enrolled Courses Yet</h4>
+            <p class="text-muted small mb-4">You have not enrolled in any batches yet. Explore our course catalog to get started!</p>
+            <div>
+                <a asp-action="AvailableCourses" asp-controller="User" class="btn btn-primary px-4">
+                    <i class="bi bi-compass me-1"></i> Browse Available Courses
+                </a>
+            </div>
+        </div>
+    }
+</div>

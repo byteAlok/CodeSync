@@ -1,0 +1,632 @@
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "CodeSync | Modern E-Learning Platform for Software Engineers";
+    var Uid = HttpContextAccessor.HttpContext.Session.GetInt32("UserId");
+}
+
+@section SEO {
+    <meta name="description" content="CodeSync is a premier developer-focused e-learning platform created by Full Stack Engineer Alok Maurya. Master Full Stack Web Development, C#, ASP.NET Core, JavaScript, React, Backend Architecture, and Data Analytics through hands-on projects." />
+    <meta name="keywords" content="CodeSync, Alok Maurya, Full Stack Developer, ASP.NET Core MVC, C#, React.js, Next.js, Node.js, Web Development, Programming Courses, Software Engineering" />
+    <link rel="canonical" href="@SiteData.SiteUrl/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@SiteData.SiteUrl/" />
+    <meta property="og:title" content="CodeSync | Modern E-Learning for Developers" />
+    <meta property="og:description" content="Empowering developers to build industry-ready applications with hands-on projects and guided engineering tracks. Built by Alok Maurya." />
+    <meta property="og:image" content="@SiteData.SiteUrl/images/home-images/codesync_hero.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="@SiteData.SiteUrl/" />
+    <meta property="twitter:title" content="CodeSync | Modern E-Learning for Developers" />
+    <meta property="twitter:description" content="Empowering developers to build industry-ready applications with hands-on projects and guided engineering tracks." />
+    <meta property="twitter:image" content="@SiteData.SiteUrl/images/home-images/codesync_hero.jpg" />
+
+    <!-- Schema.org Structured Data (WebSite & Person for Alok Maurya) -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "WebSite",
+      "name": "CodeSync",
+      "url": "@SiteData.SiteUrl/",
+      "description": "Premium developer education platform specializing in full-stack web development and software engineering.",
+      "creator": {
+        "@@type": "Person",
+        "name": "Alok Maurya",
+        "jobTitle": "Full Stack Engineer",
+            "url": "https://aloksde.vercel.app/",
+        "sameAs": [
+          "https://linkedin.com",
+          "https://github.com"
+        ],
+        "knowsAbout": ["C#", "ASP.NET Core", "JavaScript", "React.js", "Next.js", "Node.js", "SQL Server", "Full Stack Development"]
+      }
+    }
+    </script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home/home.css" asp-append-version="true" />
+}
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section py-5 py-lg-6 position-relative overflow-hidden">
+    <div class="container-xl position-relative" style="z-index: 2;">
+        <div class="row align-items-center g-5">
+            <!-- Text Column -->
+            <div class="col-lg-6">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 bg-primary-subtle text-primary border border-primary-subtle small fw-bold">
+                    <i class="bi bi-stars"></i> Next-Gen Developer Education
+                </div>
+                <h1 class="display-4 fw-black lh-sm mb-3">
+                    Master Modern <span class="text-gradient">Software Engineering</span> with CodeSync
+                </h1>
+                <p class="lead text-muted mb-4 fs-6 fs-md-5">
+                    Accelerate your programming career through production-grade projects, interactive engineering roadmaps, and real-world architectures designed for ambitious developers.
+                </p>
+                <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+                    <a class="btn btn-primary btn-lg px-4" asp-action="Register" asp-controller="Authentication">
+                        <i class="bi bi-rocket-takeoff me-2"></i> Join for Free
+                    </a>
+                    <a class="btn btn-outline-primary btn-lg px-4" asp-action="Services" asp-controller="Services">
+                        <i class="bi bi-grid-fill me-2"></i> Explore Courses
+                    </a>
+                </div>
+                <!-- Mini Stats / Badges -->
+                <div class="row g-3 pt-3 border-top border-secondary-subtle">
+                    <div class="col-4">
+                        <h4 class="fw-bold mb-0 text-primary">100%</h4>
+                        <small class="text-muted">Project-Based</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="fw-bold mb-0 text-purple" style="color: var(--cs-purple-500);">24/7</h4>
+                        <small class="text-muted">Mentor Support</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="fw-bold mb-0 text-success">Verified</h4>
+                        <small class="text-muted">Certifications</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Image Visual -->
+            <div class="col-lg-6 text-center">
+                <div class="position-relative d-inline-block">
+                    <div class="hero-glow-bg"></div>
+                    <div class="card border-0 shadow-2-strong rounded-4 overflow-hidden" style="box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.25);">
+                        <img src="~/images/home-images/codesync_hero.jpg" class="img-fluid hero-main-img" alt="Modern Developer Studio" onerror="this.src='/images/course-images/Full_Stack_Web_Development__202512012038141148.png'" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURED COURSES SECTION ===== -->
+<section class="py-5 bg-body-tertiary" id="courses">
+    <div class="container-xl">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                CURATED CURRICULUM
+            </div>
+            <h2 class="display-6 fw-bold mb-2">Explore Industry-Ready Courses</h2>
+            <p class="text-muted">Carefully structured roadmaps crafted by engineering leaders to take you from foundational syntax to scalable software systems.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Course 1 -->
+            <div class="col-12 col-md-6 col-lg-4" id="web">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="ratio ratio-16x9">
+                        <img src="~/images/course-images/Full_Stack_Web_Development__202512012038141148.png" class="card-img-top object-fit-cover" alt="Full Stack Web Development" />
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge-new">POPULAR</span>
+                            <span class="badge bg-body-secondary text-body">Full Stack</span>
+                        </div>
+                        <h5 class="card-title fw-bold text-gradient mb-2">Full Stack Web Development</h5>
+                        <p class="card-text text-muted small flex-grow-1">
+                            Build complete web platforms with modern frontend frameworks, ASP.NET Core APIs, relational databases, and cloud deployment pipelines.
+                        </p>
+                        <hr class="my-3 border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> 6 Months</small>
+                            <a asp-action="Services" asp-controller="Services" class="btn btn-outline-primary btn-sm px-3">
+                                View Details <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="col-12 col-md-6 col-lg-4" id="mobile">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="ratio ratio-16x9">
+                        <img src="~/images/course-images/Mobile_Application_Development.png" class="card-img-top object-fit-cover" alt="Mobile App Development" />
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge-new">NEW</span>
+                            <span class="badge bg-body-secondary text-body">Mobile</span>
+                        </div>
+                        <h5 class="card-title fw-bold text-gradient mb-2">Mobile App Engineering</h5>
+                        <p class="card-text text-muted small flex-grow-1">
+                            Design, architect, and deploy cross-platform iOS and Android apps with reactive UI patterns, native device APIs, and real-time backend integration.
+                        </p>
+                        <hr class="my-3 border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> 4 Months</small>
+                            <a asp-action="Services" asp-controller="Services" class="btn btn-outline-primary btn-sm px-3">
+                                View Details <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="col-12 col-md-6 col-lg-4" id="backend">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="ratio ratio-16x9">
+                        <img src="~/images/course-images/backend_Development.png" class="card-img-top object-fit-cover" alt="Backend Development" />
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge-new">ADVANCED</span>
+                            <span class="badge bg-body-secondary text-body">Backend & Cloud</span>
+                        </div>
+                        <h5 class="card-title fw-bold text-gradient mb-2">Backend Architecture & APIs</h5>
+                        <p class="card-text text-muted small flex-grow-1">
+                            Master distributed services, RESTful & GraphQL APIs, caching layers, database indexing, and enterprise security standards.
+                        </p>
+                        <hr class="my-3 border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> 5 Months</small>
+                            <a asp-action="Services" asp-controller="Services" class="btn btn-outline-primary btn-sm px-3">
+                                View Details <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="col-12 col-md-6 col-lg-4" id="programming">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="ratio ratio-16x9">
+                        <img src="~/images/course-images/Programming-Language-Popularity.jpg" class="card-img-top object-fit-cover" alt="Programming Languages" />
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge-new">FOUNDATION</span>
+                            <span class="badge bg-body-secondary text-body">Core DSA</span>
+                        </div>
+                        <h5 class="card-title fw-bold text-gradient mb-2">Modern Programming Languages</h5>
+                        <p class="card-text text-muted small flex-grow-1">
+                            Deep dive into C#, JavaScript/TypeScript, and Python syntax, memory management, object-oriented design, and algorithms.
+                        </p>
+                        <hr class="my-3 border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> 3 Months</small>
+                            <a asp-action="Services" asp-controller="Services" class="btn btn-outline-primary btn-sm px-3">
+                                View Details <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="col-12 col-md-6 col-lg-4" id="hacking">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="ratio ratio-16x9">
+                        <img src="~/images/course-images/A-Complete-Guide-to-Ethical-Hacking.png" class="card-img-top object-fit-cover" alt="Ethical Hacking" />
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge-new">SECURITY</span>
+                            <span class="badge bg-body-secondary text-body">Cybersecurity</span>
+                        </div>
+                        <h5 class="card-title fw-bold text-gradient mb-2">Ethical Hacking & Defense</h5>
+                        <p class="card-text text-muted small flex-grow-1">
+                            Learn penetration testing, vulnerability discovery, threat modeling, and defensive system hardening through sandboxed labs.
+                        </p>
+                        <hr class="my-3 border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> 4 Months</small>
+                            <a asp-action="Services" asp-controller="Services" class="btn btn-outline-primary btn-sm px-3">
+                                View Details <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 6 -->
+            <div class="col-12 col-md-6 col-lg-4" id="data">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="ratio ratio-16x9">
+                        <img src="~/images/course-images/big-data-analytics-and-business-intelligence-thumbnail.jpg" class="card-img-top object-fit-cover" alt="Data Analytics" />
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge-new">ANALYTICS</span>
+                            <span class="badge bg-body-secondary text-body">Data Science</span>
+                        </div>
+                        <h5 class="card-title fw-bold text-gradient mb-2">Data Analytics & Insights</h5>
+                        <p class="card-text text-muted small flex-grow-1">
+                            Extract actionable intelligence from complex datasets using SQL, Python analytical libraries, ETL pipelines, and interactive dashboards.
+                        </p>
+                        <hr class="my-3 border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> 4 Months</small>
+                            <a asp-action="Services" asp-controller="Services" class="btn btn-outline-primary btn-sm px-3">
+                                View Details <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-action="Services" asp-controller="Services" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-mortarboard me-2"></i> Browse Complete Catalog
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== LATEST UPDATES ===== -->
+<section class="py-5" id="updates">
+    <div class="container-xl">
+        <div class="text-center mb-5">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                ANNOUNCEMENTS
+            </div>
+            <h2 class="display-6 fw-bold">Platform Updates & News</h2>
+            <p class="text-muted">Stay informed on newly released modules, scheduled workshops, and platform enhancements.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Update 1 -->
+            <div class="col-12 col-md-4">
+                <div class="card h-100 p-4 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="p-2 rounded-3 bg-primary text-white">
+                            <i class="bi bi-rocket-takeoff-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Full Stack ASP.NET 8</h5>
+                            <small class="text-muted"><i class="bi bi-calendar-event me-1"></i> Released Recently</small>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0 small">
+                        New enterprise modules covering microservices, Entity Framework Core 8 optimizations, and clean architecture patterns are now live in the course portal.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Update 2 -->
+            <div class="col-12 col-md-4">
+                <div class="card h-100 p-4 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="p-2 rounded-3 bg-warning text-dark">
+                            <i class="bi bi-lightning-charge-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Live Coding Sessions</h5>
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i> Weekly Series</small>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0 small">
+                        Interactive weekend live coding workshops focusing on system design, frontend optimization with React, and mock technical interview rounds.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Update 3 -->
+            <div class="col-12 col-md-4">
+                <div class="card h-100 p-4 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="p-2 rounded-3 bg-success text-white">
+                            <i class="bi bi-trophy-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Milestone Reached</h5>
+                            <small class="text-muted"><i class="bi bi-star-fill me-1"></i> Community Growth</small>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0 small">
+                        CodeSync has successfully supported learners across multiple domains in landing software engineering positions. Thank you to our vibrant community!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section class="py-5 bg-body-tertiary" id="about">
+    <div class="container-xl">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="~/images/home-images/codesync_about.jpg" class="img-fluid rounded-4 shadow-lg" alt="About CodeSync Team Collaboration" onerror="this.src='/images/home-images/codesync_hero.jpg'" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                    MISSION & VALUES
+                </div>
+                <h2 class="display-6 fw-bold mb-3">
+                    Bridging Knowledge and <span class="text-gradient">Real-World Code</span>
+                </h2>
+                <p class="text-muted lead fs-6 mb-4">
+                    CodeSync was engineered with a clear philosophy: software development cannot be mastered solely through passive video watching. We focus on real codebase contributions, architectural rigor, and direct mentorship.
+                </p>
+
+                <div class="d-flex flex-column gap-3 mb-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="p-2 rounded-circle bg-primary-subtle text-primary">
+                            <i class="bi bi-check2-circle fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Modern Technology Stacks</h6>
+                            <p class="text-muted small mb-0">Learn C#, ASP.NET Core, React, SQL Server, and Cloud infrastructure using contemporary industry conventions.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="p-2 rounded-circle bg-primary-subtle text-primary">
+                            <i class="bi bi-check2-circle fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Direct Engineering Mentorship</h6>
+                            <p class="text-muted small mb-0">Receive code reviews, feedback, and career guidance directly from experienced engineers.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="p-2 rounded-circle bg-primary-subtle text-primary">
+                            <i class="bi bi-check2-circle fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Self-Paced Flexible Access</h6>
+                            <p class="text-muted small mb-0">Study on your own schedule with lifetime access to batch content and regular updates.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a asp-action="AboutUs" asp-controller="Home" class="btn btn-primary px-4">
+                    Learn More About Us <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== MEET OUR TEAM SECTION (PRESERVING ALL EXISTING IMAGES UNTOUCHED) ===== -->
+<section class="py-5" id="team">
+    <div class="container-xl">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                OUR PEOPLE
+            </div>
+            <h2 class="display-6 fw-bold">Meet Our Engineering Team</h2>
+            <p class="text-muted">The dedicated creators, mentors, and developers behind the CodeSync platform.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Member 1: Monika Yadav -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="~/images/home-images/Monika_Yadav.jpg" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Monika Yadav" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Monika Yadav</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Creative engineer passionate about crafting accessible interfaces and modern web layouts.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 2: Vishakha Chaurasia -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="~/images/home-images/vishakha.jpg" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Vishakha Chaurasia" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Vishakha Chaurasia</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Passionate about responsive web systems, frontend state management, and user experience.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 3: Shreya Yadav -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="~/images/home-images/Shreya_Yadav.jpg" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Shreya Yadav" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Shreya Yadav</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Specializes in frontend component design, interactive animations, and web optimization.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 4: Amrita Yadav -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="~/images/home-images/Amrita_Yadav.jpg" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Amrita Yadav" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Amrita Yadav</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Focused on clean code architecture, database models, and web application scalability.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="https://amrita-stack-prog.github.io/MyPortfolio/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-globe"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 5: Deepak Vishwakarma -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="https://picsum.photos/120/120?random=11" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Deepak Vishwakarma" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Deepak Vishwakarma</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Engineer committed to crafting robust backend endpoints and responsive client interfaces.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 6: Ayush Maurya -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="~/images/home-images/Ayush_Maurya.jpg" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Ayush Maurya" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Ayush Maurya</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Dedicated to frontend engineering, modern JavaScript frameworks, and developer workflows.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="https://ayushdev07.netlify.app/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-globe"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 7: Refaque Kaleem -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift">
+                    <div class="mb-3 mx-auto">
+                        <img src="https://picsum.photos/120/120?random=12" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Refaque Kaleem" />
+                    </div>
+                    <h5 class="fw-bold mb-1">Refaque Kaleem</h5>
+                    <p class="text-primary small fw-semibold mb-2">Full Stack Developer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Skilled in API development, database optimization, and server-side logic with C# and Java.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="https://refaquedevop.netlify.app/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-globe"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 8: Alok Maurya (Lead Developer) -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 p-3 border-0 shadow-sm text-center hover-lift" style="border: 2px solid var(--cs-purple-500) !important;">
+                    <div class="mb-3 mx-auto position-relative">
+                        <img src="~/images/home-images/Alok_Maurya.jpg" class="rounded-circle shadow-sm border border-2 border-primary" style="width: 100px; height: 100px; object-fit: cover;" alt="Alok Maurya" />
+                        <span class="position-absolute bottom-0 end-0 badge bg-primary rounded-pill p-1"><i class="bi bi-check-lg"></i></span>
+                    </div>
+                    <h5 class="fw-bold mb-1">Alok Maurya</h5>
+                    <p class="text-primary small fw-semibold mb-2">Lead Full Stack Engineer</p>
+                    <p class="text-muted small mb-3 flex-grow-1">Architect and developer of CodeSync. Specializes in ASP.NET Core MVC, React, Next.js, C#, and scalable web platforms.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="https://aloksde.vercel.app/" target="_blank" rel="noopener" class="btn btn-sm btn-primary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;" title="Portfolio"><i class="bi bi-globe"></i></a>
+                        <a href="https://www.linkedin.com/in/alokmauryaofficial" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center;"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section class="py-5 bg-body-tertiary" id="contact">
+    <div class="container-xl">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+                GET IN TOUCH
+            </div>
+            <h2 class="display-6 fw-bold">Have Questions? Reach Out to CodeSync</h2>
+            <p class="text-muted">Our engineering and admissions team is here to assist you with curriculum advice or technical support.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Contact Form -->
+            <div class="col-12 col-lg-7">
+                <div class="card p-4 p-md-5 border-0 shadow-sm">
+                    <h4 class="fw-bold mb-4">Send Us a Direct Message</h4>
+
+                    @if (TempData["Msg"] != null)
+                    {
+                        <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>@TempData["Msg"]</span>
+                        </div>
+                    }
+
+                    <form method="post" asp-action="Contact" asp-controller="Contact" asp-antiforgery="true">
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Your Email Address</label>
+                            <input type="email" class="form-control" name="ContactEmail" id="email" placeholder="engineer@example.com" required />
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label fw-semibold">Your Message or Inquiry</label>
+                            <textarea class="form-control" name="ContactMessage" id="message" rows="4" placeholder="Tell us what you'd like to learn or how we can assist you..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-send-fill me-2"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Cards Sidebar -->
+            <div class="col-12 col-lg-5">
+                <div class="d-flex flex-column gap-3">
+                    <div class="card p-3 border-0 shadow-sm hover-lift d-flex flex-row align-items-center gap-3">
+                        <div class="p-3 rounded-circle bg-primary-subtle text-primary">
+                            <i class="bi bi-geo-alt-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Campus Location</h6>
+                            <p class="text-muted small mb-0">Brahmasthan, Azamgarh (UP), India</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-3 border-0 shadow-sm hover-lift d-flex flex-row align-items-center gap-3">
+                        <div class="p-3 rounded-circle bg-success-subtle text-success">
+                            <i class="bi bi-telephone-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Phone Support</h6>
+                            <p class="text-muted small mb-0">+91 97087 98088</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-3 border-0 shadow-sm hover-lift d-flex flex-row align-items-center gap-3">
+                        <div class="p-3 rounded-circle bg-info-subtle text-info">
+                            <i class="bi bi-envelope-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Email Inquiries</h6>
+                            <p class="text-muted small mb-0">contact@codesync.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

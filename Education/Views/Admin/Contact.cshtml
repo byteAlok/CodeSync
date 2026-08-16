@@ -1,0 +1,115 @@
+@model IEnumerable<Education.Models.ContactClass>
+@{
+    Layout = "_AdminSidebar";
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container-fluid py-2">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">Contact Messages & Inquiries</h2>
+        <p class="text-muted small mb-0">Review inbound inquiries, student requests, and community support tickets.</p>
+    </div>
+
+    <!-- Stat Metric Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <a asp-action="Students" asp-controller="Admin" class="text-decoration-none">
+                <div class="card p-3 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 rounded-3 bg-primary-subtle text-primary">
+                            <i class="bi bi-people-fill fs-3"></i>
+                        </div>
+                        <div>
+                            <span class="text-muted small fw-semibold d-block">Students</span>
+                            <h3 class="fw-bold mb-0 text-body">Manage Students</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a asp-action="Teacher" asp-controller="Admin" class="text-decoration-none">
+                <div class="card p-3 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 rounded-3 bg-success-subtle text-success">
+                            <i class="bi bi-person-badge-fill fs-3"></i>
+                        </div>
+                        <div>
+                            <span class="text-muted small fw-semibold d-block">Instructors</span>
+                            <h3 class="fw-bold mb-0 text-body">Active Mentors</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a asp-action="Course" asp-controller="Admin" class="text-decoration-none">
+                <div class="card p-3 border-0 shadow-sm hover-lift">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 rounded-3 bg-warning-subtle text-warning">
+                            <i class="bi bi-journal-code fs-3"></i>
+                        </div>
+                        <div>
+                            <span class="text-muted small fw-semibold d-block">Course Tracks</span>
+                            <h3 class="fw-bold mb-0 text-body">Manage Tracks</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contact History Table -->
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header p-4 border-bottom">
+            <h5 class="fw-bold mb-0"><i class="bi bi-inbox-fill text-primary me-2"></i>Inbound Messages Log</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 80px;">ID</th>
+                        <th scope="col" style="width: 250px;">Sender Email</th>
+                        <th scope="col">Message Body</th>
+                        <th scope="col" style="width: 140px;">Status</th>
+                        <th scope="col" style="width: 180px;">Submitted On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var Contacts in Model)
+                        {
+                            <tr>
+                                <th scope="row" class="text-muted small">#@Contacts.ContactId</th>
+                                <td class="fw-semibold">
+                                    <i class="bi bi-envelope me-1 text-primary"></i> @Contacts.ContactEmail
+                                </td>
+                                <td>@Contacts.ContactMessage</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                        <i class="bi bi-circle-fill small me-1"></i> Active
+                                    </span>
+                                </td>
+                                <td class="text-muted small">
+                                    <i class="bi bi-calendar3 me-1"></i> @Contacts.ContactDate
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                No contact submissions found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /Services/
+Allow: /Home/
+Allow: /Contact/
+Disallow: /Admin/
+Disallow: /User/
+Disallow: /Authentication/
+Disallow: /ResetPassword/
+Disallow: /Captcha/
+
+Sitemap: https://codesync.example.com/sitemap.xml
