@@ -1,6 +1,7 @@
 using Education.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Education.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
